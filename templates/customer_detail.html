@@ -1,0 +1,240 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Profile Details{% endblock %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+<link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet">
+
+{% block main-content %}
+<main class="container profile-card" style="margin-top:6%">
+  <div class="profile-header text-center">
+   {% get_media_prefix as MEDIA_URL %}
+<div class="profile-image-wrapper {% if not show_image_to_viewer %}locked-wrapper{% endif %}">
+  <div class="{% if not show_image_to_viewer %}locked-crop{% endif %}">
+    {% if show_image_to_viewer and customer.image_path %}
+      <img src="{{ customer.image_path.url }}" class="profile-img unlocked-img" alt="Profile">
+    {% elif not customer.image_path %}
+      <img src="{% static 'img/default-m.jpg' %}" class="profile-img unlocked-img" alt="Default">
+    {% else %}
+      <img src="{{ customer.image_path.url }}" class="profile-img locked-img" alt="Locked">
+    {% endif %}
+  </div>
+</div>
+
+
+{% if not show_image_to_viewer %}
+  <div class="locked-msg">This profile image is locked. Unlock to view.</div>
+{% endif %}
+
+
+    <h2 class="mt-3 text-white">{{ customer.cus_name }}</h2>
+    {% if customer.trust_mark > 0 %}
+      <p class="verified-badge">✔ Verified Profile</p>
+    {% endif %}
+  </div>
+
+  <!-- Unlock button or already unlocked message -->
+  {% if not is_unlocked %}
+  <button class="btn btn-primary my-3" data-bs-toggle="modal" data-bs-target="#unlockModal">
+    Unlock Profile
+  </button>
+
+  <!-- Unlock Modal -->
+  <div class="modal fade" id="unlockModal" tabindex="-1" aria-labelledby="unlockModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <form method="post" class="modal-content text-center"> <!-- 👈 Moved form here -->
+        {% csrf_token %}
+        <div class="modal-header">
+          <h5 class="modal-title">Confirm Unlock</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <p>Your Available Credits: <strong>{{ current_credits }}</strong></p>
+          <p>Unlocking this profile will cost <strong>1 credit</strong>.</p>
+        </div>
+        <div class="modal-footer justify-content-center">
+          <button type="submit" class="btn btn-success">Yes, Unlock</button>
+          <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancel</button>
+        </div>
+      </form>
+    </div>
+  </div>
+{% else %}
+  <p class="bg-light text-black p-2 rounded ms-2" style="display: inline-block;">
+    🔓 You have unlocked this profile.
+  </p>
+
+{% endif %}
+
+
+  <!-- Profile Tabs Content -->
+  <ul class="nav nav-tabs justify-content-center mt-3" id="profileTab" role="tablist">
+    <li class="nav-item">
+      <a class="nav-link active" id="about-tab" data-bs-toggle="tab" href="#about" role="tab">About</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" id="background-tab" data-bs-toggle="tab" href="#background" role="tab">Background</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" id="education-tab" data-bs-toggle="tab" href="#education" role="tab">Education</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" id="contact-tab" data-bs-toggle="tab" href="#contact" role="tab">Contact</a>
+    </li>
+  </ul>
+<br>
+  <div class="tab-content text-white" id="profileTabContent">
+    <div class="tab-pane fade show active" id="about" role="tabpanel">
+      <p><span class="info-label">DOB:</span> {{ customer.dob }}</p>
+      <p><span class="info-label">Gender:</span> {{ customer.gender }}</p>
+      <p><span class="info-label">Height:</span> {{ customer.height }}</p>
+      <p><span class="info-label">About:</span> {{ customer.discription }}</p>
+    </div>
+
+    <div class="tab-pane fade" id="background" role="tabpanel">
+      <p><span class="info-label">Marital Status:</span> {{ customer.marital_status }}</p>
+      <p><span class="info-label">Religion:</span> {{ customer.religion }}</p>
+      <p><span class="info-label">Mother Tongue:</span> {{ customer.mothertongue }}</p>
+      <p><span class="info-label">City:</span> {{ customer.city }}</p>
+    </div>
+
+    <div class="tab-pane fade" id="education" role="tabpanel">
+      <p><span class="info-label">Qualification:</span> {{ customer.qualification }}</p>
+    </div>
+
+    <div class="tab-pane fade" id="contact" role="tabpanel">
+  <p><span class="info-label">Mobile:</span> {{ mobile_to_show }}</p>
+  <p><span class="info-label">Email:</span> {{ email_to_show }}</p>
+</div>
+
+  </div>
+</main>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+
+<style>
+ 
+
+  .profile-card {
+    background: rgba(255, 255, 255, 0.08);
+    padding: 30px;
+    border-radius: 20px;
+    margin-top: 3rem;
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+  }
+
+  .info-label {
+    font-weight: bold;
+    color:  #ff4d6d;
+  }
+
+  .verified-badge {
+    color: #28a745;
+    font-weight: bold;
+    font-size: 1rem;
+  }
+
+  .nav-tabs .nav-link.active {
+    background-color: rgba(255, 255, 255, 0.2);
+    color: #fff;
+    font-weight: bold;
+    border: none;
+  }
+
+  .nav-tabs .nav-link {
+    color: #ddd;
+  }
+
+  .btn-success {
+    background: linear-gradient(145deg, #28a745, #218838);
+    color: white;
+  }
+
+  .btn-danger {
+    background: linear-gradient(145deg, #dc3545, #c82333);
+    color: white;
+  }
+
+  .btn {
+    padding: 10px;
+    border: none;
+    border-radius: 12px;
+    background: linear-gradient(135deg, #ff6a00, #ee0979);
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: transform 0.3s ease, background 0.3s ease;
+  }
+
+  .btn:hover {
+    transform: scale(1.03);
+    background: linear-gradient(135deg, #ee0979, #ff6a00);
+  }
+
+/* Common image wrapper */
+.profile-image-wrapper {
+  position: relative;
+  width: 200px;
+  height: 200px;
+  margin: auto;
+  overflow: hidden;
+}
+
+/* Wrapper to crop blur edges */
+.locked-crop {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  border-radius: 0;
+  transform: scale(1.05);
+  pointer-events: none; /* Prevent hover or click */
+}
+
+/* Unlocked image: white border and rounded */
+.unlocked-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 12px;
+  border: 4px solid white;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+/* Locked image: square, blurred, no border */
+.locked-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: blur(6px);
+  transform: scale(1.1); /* prevent visible edges of blur */
+}
+
+/* Optional lock icon */
+.locked-wrapper::after {
+  content: "\1F512";
+  font-size: 2.5rem;
+  color: rgba(255, 255, 255, 0.85);
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+   user-select: none;    /* Prevent selecting the image */
+  -webkit-user-drag: none; /* Chrome/Safari */
+}
+
+
+.locked-msg {
+  margin-top: 10px;
+  font-size: 0.9rem;
+  color: #999;
+  text-align: center;
+  color:white;
+}
+
+
+  
+</style>
+{% endblock %}

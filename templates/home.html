@@ -1,0 +1,1581 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Home{% endblock %}
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+<link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet">
+{% block main-content %}
+
+
+  <style>
+    /* Background Video (optional) */
+    body{
+      background:white;
+      font-family: "Poppins", sans-serif;
+      font-weight: 300;
+      font-style: normal;
+      color: #ffffff;
+    }
+    
+    .video-bg {
+      position: fixed;
+      top: 0;
+      left: 0;
+      min-width: 100vw;
+      min-height: 100vh;
+      z-index: -1;
+      object-fit: cover;
+    }
+
+    .section {
+      padding: 80px 20px;
+    }
+
+    .card-custom {
+      background: rgba(255, 255, 255, 0.1);
+      border: none;
+      border-radius: 20px;
+      color: white;
+      transition: transform 0.4s ease, background 0.3s;
+      backdrop-filter: blur(10px);
+    }
+
+    .card-custom:hover {
+      transform: translateY(-10px);
+      background: rgba(255, 255, 255, 0.2);
+    }
+
+    
+    
+
+    /* Toggle Button 
+    .toggle-btn {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      font-size: 1.5rem;
+      background-color: #fff;
+      border: none;
+      box-shadow: 0 0 10px rgba(0,0,0,0.2);
+      transition: background 0.3s, transform 0.3s;
+    }*/
+
+     /*.toggle-btn:hover {
+      transform: scale(1.1);
+    }
+
+    /* Light/Dark Mode 
+    body.dark-mode {
+      background-color: #121212;
+      color: #ffffff;
+    }
+    
+    body.dark-mode .card,
+    body.dark-mode .card-custom {
+      background-color: #1e1e1e;
+      color: #fff;
+    }
+
+    body.dark-mode .navbar {
+      background-color: #1c1c1c !important;
+    }
+
+    body.dark-mode .footer,
+    body.dark-mode .mode-text,
+    body.dark-mode .social-icon,
+    body.dark-mode .quote-icon {
+      color: white;
+    }
+
+    body:not(.dark-mode) {
+      background-color: #ffffff;
+      color: #000000;
+    }
+
+    body:not(.dark-mode) .navbar {
+      background: rgba(255, 255, 255, 0.9);
+    }
+
+    body:not(.dark-mode) .navbar .nav-link,
+    body:not(.dark-mode) .navbar .navbar-brand,
+    body:not(.dark-mode) .mode-text,
+    body:not(.dark-mode) .social-icon {
+      color: #000000 !important;
+    }
+
+    body:not(.dark-mode) .card-custom {
+      background: rgba(0, 0, 0, 0.05);
+    }*/
+
+    .mode-text {
+      transition: color 0.3s ease;
+      
+    }
+/* Light mode default */
+.card-custom {
+  background-color: #fff;
+  color: #000;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+/* Dark mode styles */
+ .card-custom {
+  background-color: #1e1e1e; /* or any dark tone */
+  color: #fff;
+}
+
+ .card-custom .card-title,
+.card-custom .card-text {
+  color: #fff;
+}
+
+  </style>
+
+
+  <video autoplay muted loop class="video-bg">
+    <source src="{% static 'videos/background1.mp4' %}" type="video/mp4">
+  </video> 
+
+ 
+  <!-- Hero -->
+  <section class="section text-center">
+    <div class="container">
+      <h1 class="display-4 animate__animated animate__fadeInDown mode-text">India's Trusted Matrimony Platform</h1>
+      <p class="lead animate__animated animate__fadeInUp mode-text">Find your perfect match with verified profiles</p>
+      <a href="{% url 'signup' %}" class="btn btn-danger btn-lg mt-4 animate__animated animate__pulse animate__infinite">Get Started</a>
+    </div>
+  </section>
+
+  <!-- ... (head section remains unchanged) ... -->
+  <section class="vendor-search-modern">
+    <div class="overlay">
+      <div class="container text-center text-white">
+        <h1 class="fw-bold display-6 text-white">
+          India's Largest <span class="highlight">Wedding Planning</span> Platform
+        </h1>
+        <p class="lead mb-4 text-white">Find top photographers, makeup artists, caterers & more for your special day</p>
+  
+        <div class="search-card d-flex flex-wrap justify-content-between align-items-center p-3">
+          <div class="search-input d-flex align-items-center flex-fill mb-2 mb-md-0 me-md-3">
+            <i class="fas fa-search me-2 text-muted"></i>
+            <select class="form-select border-0 bg-transparent">
+              <option selected>Search For Vendors</option>
+              <option value="photo">Photographers</option>
+              <option value="makeup">Makeup Artists</option>
+              <option value="decor">Decorators</option>
+            </select>
+          </div>
+  
+          <div class="search-input d-flex align-items-center flex-fill mb-2 mb-md-0 me-md-3">
+            <i class="fas fa-map-marker-alt me-2 text-muted"></i>
+            <select class="form-select border-0 bg-transparent ">
+              <option selected>Select City</option>
+              <option value="chennai">Chennai</option>
+              <option value="delhi">Delhi</option>
+              <option value="bangalore">Bangalore</option>
+            </select>
+          </div>
+  
+          <button class="btn btn-find px-4">
+            <i class="fas fa-search-location me-1"></i> Find Vendors
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+  
+  <style>
+    /* Section Background & Overlay */
+..vendor-search-modern {
+  background: url('/static/images/banner.jpg') center center / cover no-repeat;
+  position: relative;
+  padding: 80px 0;
+  transition: all 0.4s ease;
+  animation: fadeIn 1.2s ease-out both;
+}
+
+.vendor-search-modern .overlay {
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(6px);
+  padding: 40px 20px;
+  border-radius: 16px;
+}
+
+/* Typography */
+.vendor-search-modern h1 {
+  font-weight: 700;
+  color: #1a1a1a;
+  animation: fadeSlideIn 1s ease-out both;
+  animation-delay: 0.3s;
+}
+
+.vendor-search-modern .highlight {
+  color: #ff4d6d;
+}
+
+.vendor-search-modern p {
+  color: #333;
+  animation: fadeSlideIn 1s ease-out both;
+  animation-delay: 0.3s;
+}
+
+/* Search Card */
+.vendor-search-modern .search-card {
+  background: rgba(255, 255, 255, 0.6);
+  backdrop-filter: blur(10px);
+  border-radius: 16px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+  margin-top: 30px;
+  flex-wrap: wrap;
+  animation: fadeSlideIn 1s ease-out both;
+  animation-delay: 0.6s;
+  box-shadow: 0 0 20px rgba(255, 255, 255, 0.5), 0 0 60px rgba(255, 100, 200, 0.3);
+}
+
+/* Input & Dropdown */
+.vendor-search-modern .search-input {
+    background-color: rgba(50, 50, 50, 0.6);
+  border-radius: 12px;
+  padding: 8px 15px;
+  min-width: 200px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  transition: background 0.3s ease, color 0.3s ease;
+}
+
+.vendor-search-modern .search-input::placeholder {
+  color: #555;
+  opacity: 1;
+}
+
+.vendor-search-modern .form-select {
+  border: none;
+  box-shadow: none;
+  font-weight: 500;
+  width: 100%;
+  color: #212529;
+  background-color: transparent;
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  background-size: 12px 6px;
+  appearance: none;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Button */
+.vendor-search-modern .btn-find {
+  background-color: #ff4d6d;
+  color: #fff;
+  font-weight: 600;
+  border-radius: 12px;
+  padding: 10px 24px;
+  white-space: nowrap;
+  transition: background-color 0.3s, color 0.3s;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.vendor-search-modern .btn-find:hover {
+  background-color: #e13b5b;
+}
+
+/* Remove unwanted gray background */
+.vendor-search-modern .overlay {
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+
+
+
+.vendor-search-modern h1,
+ .vendor-search-modern p {
+  color: #f0f0f0;
+}
+
+ .vendor-search-modern .search-card {
+  background: rgba(25, 25, 25, 0.75);
+}
+
+ .vendor-search-modern .search-input {
+  background: rgba(50, 50, 50, 0.6);
+  color: #f1f1f1;
+}
+ select,
+ option {
+  background-color: #111;
+  color: #fff;
+}
+
+
+ .vendor-search-modern .form-select {
+  background-color: rgba(50, 50, 50, 0.6);
+  color: #f1f1f1;
+  background-image: url("data:image/svg+xml,%3Csvg width='10' height='6' viewBox='0 0 10 6' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%23ffffff'/%3E%3C/svg%3E");
+}
+
+ .vendor-search-modern .btn-find {
+  background-color: #ff4d6d;
+  color: white;
+}
+
+.vendor-search-modern .btn-find:hover {
+  background-color: #e13b5b;
+}
+
+
+ /* Responsive Fixes */
+@media (max-width: 768px) {
+  .vendor-search-modern .search-card {
+    flex-direction: column;
+    gap: 10px;
+    padding: 20px;
+  }
+
+  .vendor-search-modern .search-input {
+    width: 100%;
+    margin-right: 0 !important;
+  }
+
+  .vendor-search-modern .btn-find {
+    width: 100%;
+  }
+}
+
+/* Animations */
+@keyframes fadeSlideIn {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.vendor-search-modern .search-input::placeholder {
+  color: #f1f1f1 !important;
+  opacity: 1 !important;
+}
+</style>  
+
+<section class="about-us-section py-5" id="about">
+  <div class="container">
+    <div class="row align-items-center">
+      <!-- Image Collage -->
+      <div class="col-lg-6 mb-4 mb-lg-0" data-aos="fade-right">
+        <div class="image-collage position-relative">
+          <img src="{% static 'images/grid1.jpg' %}" class="img-fluid rounded shadow collage-img img-top-left"  alt="Couple 1">
+          <img src="{% static 'images/grid2.jpg' %}" class="img-fluid rounded shadow collage-img img-center"  alt="Couple 2">
+          <img src="{% static 'images/grid3.jpg' %}" class="img-fluid rounded shadow collage-img img-bottom-right"  alt="Bride">
+        </div>
+      </div>
+
+      <!-- About Text -->
+      <div class="col-lg-6" data-aos="fade-left">
+        <h4 class="text-uppercase text-white fw-bold mb-2">About Us</h4>
+        <h2 class="fw-bold mb-4" style='color: #ff4d6d;'>We Connect Perfect Matches</h2>
+        <p class="text-white" style="text-align:justify">
+          At Achudha Matrimony, we believe that love is a journey best shared with the right partner.
+          Our platform is designed to connect individuals looking for meaningful relationships that can
+          lead to a lifelong commitment. Whether you're seeking a serious relationship or exploring
+          the possibility of marriage, we provide a safe and supportive environment for you to meet
+          like-minded individuals.
+        </p>
+        <p class="text-white mb-4" style="text-align:justify">
+          Your privacy and security are our top priorities. We implement robust measures to protect
+          your information and create a safe environment for you to meet new people. Our dedicated team
+          is here to assist you throughout your journey. Whether you have questions or need guidance,
+          we're just a message away.
+        </p>
+
+        <!-- Features -->
+        <div class="row text-center mt-4">
+          <div class="col-4" data-aos="zoom-in" data-aos-delay="100">
+            <i class="fas fa-shield-alt fa-2x text-primary mb-2"></i>
+            <h6 class="fw-bold mb-0">100% Privacy</h6>
+            <small class="text-white">Our sector</small>
+          </div>
+          <div class="col-4" data-aos="zoom-in" data-aos-delay="200">
+            <i class="fas fa-award fa-2x text-warning mb-2"></i>
+            <h6 class="fw-bold mb-0">Trusted</h6>
+            <small class="text-white">Our portal</small>
+          </div>
+          <div class="col-4" data-aos="zoom-in" data-aos-delay="300">
+            <i class="fas fa-crown fa-2x text-white mb-2"></i>
+            <h6 class="fw-bold mb-0">Lakhs of Profile</h6>
+            <small class="text-white">Members</small>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  
+  @keyframes float {
+    0% {
+      transform: translateY(0px);
+    }
+    50% {
+      transform: translateY(-30px);
+    }
+    100% {
+      transform: translateY(0px);
+    }
+  }
+  
+  @keyframes floatScale {
+    0% {
+      transform: scale(1) translateY(0);
+    }
+    50% {
+      transform: scale(1.03) translateY(-30px);
+    }
+    100% {
+      transform: scale(1) translateY(0px);
+    }
+  }
+  
+  .image-collage .collage-img {
+    animation: float 4s ease-in-out infinite;
+    transition: transform 0.3s ease;
+  }
+  
+  .image-collage .img-center {
+    animation: floatScale 5s ease-in-out infinite;
+  }
+  
+  .image-collage .img-top-left {
+    animation-delay: 0.5s;
+  }
+  
+  .image-collage .img-bottom-right {
+    animation-delay: 1s;
+  }
+  
+  .image-collage .collage-img:hover {
+    transform: translateY(-10px) scale(1.05);
+  }
+  .img-top-left {
+    top: 0;
+    left: 0;
+    width: 35%;
+    z-index: 2;
+  }
+  
+  .img-center {
+    top: 20%;
+    left: 20%;
+    width: 60%;
+    z-index: 1;
+  }
+  .image-collage {
+    position: relative;
+    height: 350px;
+  }
+  
+  .collage-img {
+    position: absolute;
+    border-radius: 12px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    object-fit: cover;
+  }
+  .img-bottom-right {
+    bottom: 0;
+    right: 0;
+    width: 35%;
+    z-index: 2;
+  }
+</style>  
+
+<section class="sector-section" data-aos="fade-up">
+  <div class="container">
+    <h3 class="section-title" data-aos="fade-right">Our Wedding Sector Categories</h3>
+    <div class="sector-slider-wrapper" data-aos="zoom-in-up">
+      <button class="slider-btn prev" data-aos="fade-right" data-aos-delay="100">&#8592;</button>
+      <div class="sector-slider" id="sectorSlider">
+        <div class="sector-card" data-aos="flip-left">
+          <img src="{% static 'images/grid1.jpg' %}" alt="Gifts">
+          <div class="sector-title">Gifts |</div>
+        </div>
+        <div class="sector-card" data-aos="flip-left" data-aos-delay="100">
+          <img src="{% static 'images/grid1.jpg' %}" alt="Decorators">
+          <div class="sector-title">Decorators |</div>
+        </div>
+        <div class="sector-card" data-aos="flip-left" data-aos-delay="200">
+          <img src="{% static 'images/grid1.jpg' %}" alt="Decorators">
+          <div class="sector-title">Decorators |</div>
+        </div>
+        <div class="sector-card" data-aos="flip-left" data-aos-delay="200">
+          <img src="{% static 'images/grid1.jpg' %}" alt="Decorators">
+          <div class="sector-title">Decorators |</div>
+        </div>
+        <div class="sector-card" data-aos="flip-left" data-aos-delay="200">
+          <img src="{% static 'images/grid1.jpg' %}" alt="Decorators">
+          <div class="sector-title">Decorators |</div>
+        </div>
+        <div class="sector-card" data-aos="flip-left" data-aos-delay="200">
+          <img src="{% static 'images/grid1.jpg' %}" alt="Decorators">
+          <div class="sector-title">Decorators |</div>
+        </div>
+        <div class="sector-card" data-aos="flip-left" data-aos-delay="200">
+          <img src="{% static 'images/grid1.jpg' %}" alt="Decorators">
+          <div class="sector-title">Decorators |</div>
+        </div>
+        <!-- Repeat with incrementing `data-aos-delay` for staggered effects -->
+        <div class="sector-card" data-aos="flip-left" data-aos-delay="300">
+          <img src="{% static 'images/grid1.jpg' %}" alt="Pandits">
+          <div class="sector-title">Pandits |</div>
+        </div>
+        <div class="sector-card" data-aos="flip-left" data-aos-delay="400">
+          <img src="{% static 'images/grid1.jpg' %}" alt="Photographers">
+          <div class="sector-title">Photographers |</div>
+        </div>
+      </div>
+      <button class="slider-btn next" data-aos="fade-left" data-aos-delay="100">&#8594;</button>
+    </div>
+  </div>
+</section>
+
+
+
+<style>
+  .sector-section {
+    margin-top:30px;
+    padding: 40px 20px;
+    text-align: center;
+  }
+  
+  .section-title {
+    font-weight: bold;
+    color: white;
+    margin-bottom: 20px;
+  }
+  
+  .sector-slider-wrapper {
+    display: flex;
+    align-items: center;
+    position: relative;
+  }
+  {% comment %} .sector-slider-wrapper {
+    background: linear-gradient(135deg, #1a1a1a, #333);
+    padding: 20px;
+    border-radius: 20px;
+  } {% endcomment %}
+  .slider-btn {
+    background-color: #ccc;
+    border: none;
+    padding: 10px 14px;
+    cursor: pointer;
+    font-size: 18px;
+    margin: 0 10px;
+    border-radius: 4px;
+    transition: 0.3s ease;
+  }
+  
+  .slider-btn:hover {
+    background-color: #999;
+  }
+  
+  .sector-slider {
+    display: flex;
+    overflow-x: auto;
+    scroll-behavior: smooth;
+    gap: 20px;
+  }
+  
+  .sector-slider::-webkit-scrollbar {
+    display: none;
+  }
+  
+  .sector-card {
+    min-width: 220px;
+    background:transparent;
+    border-radius: 12px;
+    overflow: hidden;
+    position: relative;
+    transition: transform 0.3s ease;
+  }
+  
+  .sector-card:hover {
+    transform: scale(1.05);
+  }
+  
+  .sector-card img {
+    width: 100%;
+    height: 140px;
+    object-fit: cover;
+    display: block;
+  }
+  
+  .sector-title {
+    color: #fff;
+    font-weight: bold;
+    padding: 10px;
+    text-align: left;
+  }
+  
+  .sector-note {
+    margin-top: 20px;
+    color: white;
+    font-weight:bold;
+  }
+  .sector-card {
+    background: rgba(255, 255, 255, 0.1); /* semi-transparent */
+    border-radius: 15px;
+    
+    backdrop-filter: blur(10px); /* glassy effect */
+    -webkit-backdrop-filter: blur(10px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    color: white;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    overflow: hidden;
+  }
+  
+  .sector-card img {
+    width: 100%;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 10px;
+    margin-bottom: 8px;
+  }
+  
+  .sector-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.3);
+  }
+  
+  .sector-title {
+    font-weight: 600;
+    font-size: 1rem;
+    color: #fff;
+  }
+  
+   </style>
+
+  <script>
+    const slider = document.getElementById("sectorSlider");
+const prevBtn = document.querySelector(".prev");
+const nextBtn = document.querySelector(".next");
+
+prevBtn.addEventListener("click", () => {
+  slider.scrollBy({ left: -250, behavior: "smooth" });
+});
+
+nextBtn.addEventListener("click", () => {
+  slider.scrollBy({ left: 250, behavior: "smooth" });
+});
+</script>
+
+<!-- Include AOS CSS & JS in your <head> -->
+
+  <section class="help-form-section" id="help">
+    <div class="container">
+      <h3 class="form-title text-white" data-aos="fade-up">Help us with your details</h3>
+      <h5 class="sector-note" data-aos="fade-up" data-aos-delay="200">
+        Send your enquiry to know about the Sectors. Our executive will call you shortly
+      </h5>
+      <p class="form-desc" data-aos="fade-up" data-aos-delay="100">
+        Our dedicated support team is here to assist you with any questions or concerns you may have as you navigate our platform.
+      </p>
+  
+      <form class="help-form" method="POST" data-aos="fade-up" data-aos-delay="200">
+        {% csrf_token %}
+        <input type="text" name="name" placeholder="Enter Name" required />
+        <input type="tel" name="mobile" placeholder="Enter Mobile Number" required />
+        <input type="email" name="email" placeholder="Enter Email Address" required />
+        <select name="enquiry" required>
+          <option selected>Select Enquiry</option>
+          <option value="profile">Profile Related</option>
+          <option value="payment">Payment Issues</option>
+          <option value="support">Customer Support</option>
+        </select>
+        <button type="submit">Submit</button>
+    </form>
+    </div>
+  </section>
+  
+  <style>
+    .help-form-section {
+      padding: 50px 20px;
+      text-align: center;
+    }
+    
+    .form-title {
+      color: white;
+      font-size: 24px;
+      font-weight: bold;
+    }
+    
+    .form-desc {
+      color: white;
+      margin-bottom: 30px;
+      font-size: 16px;
+    }
+    
+    .help-form {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 15px;
+      max-width: 900px;
+      margin: auto;
+    }
+    
+    .help-form input,
+    .help-form select {
+      padding: 12px 16px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      font-size: 15px;
+      min-width: 220px;
+      transition: all 0.3s ease;
+    }
+    
+    .help-form input:focus,
+    .help-form select:focus {
+      outline: none;
+      border-color: #ff4d6d ;
+      box-shadow: 0 0 5px rgba(26, 26, 161, 0.4);
+    }
+    
+    .help-form button {
+      background-color: #ff4d6d ;
+      color: white;
+      padding: 12px 25px;
+      font-size: 16px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+    
+  </style>  
+  
+  
+  <!-- Include AOS -->
+<!-- AOS CSS & JS -->
+
+<section class="customer-blog-section" id="customer-blogs">
+  <h2 class="customer-blog-title" data-aos="fade-up">Customer Blog Post</h2>
+
+  <div class="customer-blog-carousel" data-aos="fade-up" data-aos-delay="100">
+    <button class="customer-slider-btn left" id="customerBlogPrevBtn" data-aos="fade-right" data-aos-delay="100">&#8592;</button>
+
+    <div class="customer-cards-wrapper" id="customerBlogCards">
+      <!-- Card 1 -->
+      <div class="customer-blog-card" data-aos="fade-up" data-aos-delay="200">
+        <img src="{% static 'images/grid1.jpg' %}" alt="Rekha & Sandeep" />
+        <p class="customer-blog-meta">Rekha & Sandeep | 18 - Jan, 2025</p>
+        <h3 class="customer-blog-heading">From Online Conversations to Forever</h3>
+        <p class="customer-blog-desc">Rekha's Story: Rekha, a teacher from Kolkata, had been on several matrimony sites but hadn't found the right person...</p>
+      </div>
+
+      <!-- Card 2 -->
+      <div class="customer-blog-card" data-aos="fade-up" data-aos-delay="300">
+        <img src="{% static 'images/grid1.jpg' %}" alt="Priya & Suresh" />
+        <p class="customer-blog-meta">Priya & Suresh | 16 - Jan, 2025</p>
+        <h3 class="customer-blog-heading">A Journey of Love Across Borders</h3>
+        <p class="customer-blog-desc">Priya's Story: Priya, a software engineer from Chennai, was determined to find a life partner who shared her values...</p>
+      </div>
+
+      <!-- Card 3 -->
+      <div class="customer-blog-card" data-aos="fade-up" data-aos-delay="400">
+        <img src="{% static 'images/grid1.jpg' %}" alt="Neha & Arun" />
+        <p class="customer-blog-meta">Neha & Arun | 16 - Jan, 2025</p>
+        <h3 class="customer-blog-heading">A Perfect Match Through Compatibility</h3>
+        <p class="customer-blog-desc">Neha's Story: Neha, a marketing manager from Delhi, was very particular about her partner's outlook on life...</p>
+      </div>
+
+      <!-- Extra Duplicates if Needed -->
+      <div class="customer-blog-card" data-aos="fade-up" data-aos-delay="500">
+        <img src="{% static 'images/grid1.jpg' %}" alt="Neha & Arun" />
+        <p class="customer-blog-meta">Neha & Arun | 16 - Jan, 2025</p>
+        <h3 class="customer-blog-heading">A Perfect Match Through Compatibility</h3>
+        <p class="customer-blog-desc">Neha's Story: Neha, a marketing manager from Delhi, was very particular about her partner's outlook on life...</p>
+      </div>
+      <div class="customer-blog-card" data-aos="fade-up" data-aos-delay="500">
+        <img src="{% static 'images/grid1.jpg' %}" alt="Neha & Arun" />
+        <p class="customer-blog-meta">Neha & Arun | 16 - Jan, 2025</p>
+        <h3 class="customer-blog-heading">A Perfect Match Through Compatibility</h3>
+        <p class="customer-blog-desc">Neha's Story: Neha, a marketing manager from Delhi, was very particular about her partner's outlook on life...</p>
+      </div>
+      <div class="customer-blog-card" data-aos="fade-up" data-aos-delay="500">
+        <img src="{% static 'images/grid1.jpg' %}" alt="Neha & Arun" />
+        <p class="customer-blog-meta">Neha & Arun | 16 - Jan, 2025</p>
+        <h3 class="customer-blog-heading">A Perfect Match Through Compatibility</h3>
+        <p class="customer-blog-desc">Neha's Story: Neha, a marketing manager from Delhi, was very particular about her partner's outlook on life...</p>
+      </div>
+      <div class="customer-blog-card" data-aos="fade-up" data-aos-delay="500">
+        <img src="{% static 'images/grid1.jpg' %}" alt="Neha & Arun" />
+        <p class="customer-blog-meta">Neha & Arun | 16 - Jan, 2025</p>
+        <h3 class="customer-blog-heading">A Perfect Match Through Compatibility</h3>
+        <p class="customer-blog-desc">Neha's Story: Neha, a marketing manager from Delhi, was very particular about her partner's outlook on life...</p>
+      </div>
+    </div>
+
+    <button class="customer-slider-btn right" id="customerBlogNextBtn" data-aos="fade-left" data-aos-delay="100">&#8594;</button>
+  </div>
+</section>
+
+<style>
+  .customer-blog-section {
+    padding: 60px 20px;
+    text-align: center;
+    background: #000;
+  }
+  
+  .customer-blog-title {
+    font-size: 2rem;
+    margin-bottom: 30px;
+    color: white;
+  }
+  
+  .customer-blog-carousel {
+    position: relative;
+    overflow: hidden;
+    padding: 20px 40px;
+    width: 100%;
+  }
+  
+  .customer-cards-wrapper {
+    display: flex;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    overflow-y: hidden;
+    gap: 24px;
+    scroll-behavior: smooth;
+    padding-bottom: 10px;
+    scrollbar-width: none;
+    min-width: 100%;
+  }
+  
+  .customer-cards-wrapper::-webkit-scrollbar {
+    display: none;
+  }
+  
+  .customer-blog-card {
+    flex: 0 0 auto;
+    width: 300px;
+    background: #111;
+    border-radius: 12px;
+   
+    color: white;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.3);
+    transition: transform 0.3s ease;
+  }
+  
+  .customer-blog-card:hover {
+    transform: translateY(-5px);
+  }
+  
+  .customer-blog-card img {
+    width: 100%;
+    border-radius: 10px;
+  }
+  
+  .customer-blog-meta {
+    font-size: 0.9rem;
+    color: #ccc;
+    margin: 10px 0 5px;
+  }
+  
+  .customer-blog-heading {
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: 10px;
+    color: white;
+  }
+  
+  .customer-blog-desc {
+    font-size: 0.95rem;
+    color: #ddd;
+  }
+  
+  .customer-slider-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: #eee;
+    border: none;
+    font-size: 1.5rem;
+    padding: 12px;
+    border-radius: 8px;
+    cursor: pointer;
+    z-index: 10;
+    transition: background-color 0.2s ease;
+  }
+  
+  .customer-slider-btn:hover {
+    background-color: #ddd;
+  }
+  
+  .customer-slider-btn.left {
+    left: 10px;
+  }
+  
+  .customer-slider-btn.right {
+    right: 10px;
+  }
+  
+  @media (max-width: 768px) {
+    .customer-blog-card {
+      width: 260px;
+    }
+  }
+</style>
+<script>
+  const blogCards = document.getElementById("customerBlogCards");
+  const blogNext = document.getElementById("customerBlogNextBtn");
+  const blogPrev = document.getElementById("customerBlogPrevBtn");
+
+  blogNext.addEventListener("click", () => {
+    blogCards.scrollBy({ left: 320, behavior: "smooth" });
+  });
+
+  blogPrev.addEventListener("click", () => {
+    blogCards.scrollBy({ left: -320, behavior: "smooth" });
+  });
+</script>
+
+
+
+<!-- Vendors -->
+<section class="section" id="vendors">
+  <div class="container">
+    <h2 class="text-center mb-5" data-aos="zoom-in">Top Vendors</h2>
+    <div class="row g-4">
+      <div class="col-md-4" data-aos="flip-left" data-aos-delay="150">
+        <div class="card card-custom shadow">
+          <img src="{% static 'images/grid1.jpg' %}" class="card-img-top" alt="Vendor 1">
+          <div class="card-body">
+            <h5 class="card-title">Vendor 1</h5>
+            <p class="card-text">Photography | Makeup | Decor</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4" data-aos="flip-left" data-aos-delay="300">
+        <div class="card card-custom shadow">
+          <img src="{% static 'images/grid2.jpg' %}" class="card-img-top" alt="Vendor 2">
+          <div class="card-body">
+            <h5 class="card-title">Vendor 2</h5>
+            <p class="card-text">Photography | Makeup | Decor</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4" data-aos="flip-left" data-aos-delay="450">
+        <div class="card card-custom shadow">
+          <img src="{% static 'images/grid3.jpg' %}" class="card-img-top" alt="Vendor 3">
+          <div class="card-body">
+            <h5 class="card-title">Vendor 3</h5>
+            <p class="card-text">Photography | Makeup | Decor</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+
+
+<!-- Testimonials -->
+<section class="section py-4" id="testimonials">
+  <div class="container">
+    <h2 class="text-center mb-5" data-aos="fade-down">Success Stories</h2>
+    <div class="row g-4 justify-content-center">
+      <div class="col-md-4" data-aos="fade-up" data-aos-delay="100">
+        <div class="card shadow-lg p-4 border-0 rounded-4 h-100">
+          <div class="card-body">
+            <div class="mb-3"><i class="fas fa-quote-left fs-2 text-danger quote-icon"></i></div>
+            <p class="fst-italic">Thanks to Achudha Matrimony, I met the love of my life.</p>
+            <h5 class="mt-4 fw-bold">– Anjali & Ravi</h5>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4" data-aos="fade-up" data-aos-delay="200">
+        <div class="card shadow-lg p-4 border-0 rounded-4 h-100">
+          <div class="card-body">
+            <div class="mb-3"><i class="fas fa-quote-left fs-2 text-danger quote-icon"></i></div>
+            <p class="fst-italic">We clicked instantly after meeting here.</p>
+            <h5 class="mt-4 fw-bold">– Sneha & Arjun</h5>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4" data-aos="fade-up" data-aos-delay="300">
+        <div class="card shadow-lg p-4 border-0 rounded-4 h-100">
+          <div class="card-body">
+            <div class="mb-3"><i class="fas fa-quote-left fs-2 text-danger quote-icon"></i></div>
+            <p class="fst-italic">We found love and lifelong companionship here.</p>
+            <h5 class="mt-4 fw-bold">– Priya & Manoj</h5>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="testimonial-section">
+  <div class="container">
+    <h2 class="testimonial-heading" data-aos="fade-down">Our vendors have generated 100 Crore business last month!</h2>
+    <p class="testimonial-subheading" data-aos="fade-up" data-aos-delay="100">Here are some of our vendor testimonials</p>
+
+    <div class="testimonial-cards">
+      <div class="testimonial-card" data-aos="fade-up" data-aos-delay="200">
+        <div class="quote">❝</div>
+        <p class="testimonial-text">
+          "When I registered here as a verified vendor, I did not know that my business would improve vastly within a short period..."
+        </p>
+        <p class="testimonial-name">Varun</p>
+        <p class="testimonial-role">Caterers, Chennai</p>
+      </div>
+
+      <div class="testimonial-card" data-aos="fade-up" data-aos-delay="300">
+        <div class="quote">❝</div>
+        <p class="testimonial-text">
+          "I took the most popular package on WeddingBazaar and it is totally useful..."
+        </p>
+        <p class="testimonial-name">Hemavathy</p>
+        <p class="testimonial-role">Makeup Artist, Hyderabad</p>
+      </div>
+
+      <div class="testimonial-card" data-aos="fade-up" data-aos-delay="400">
+        <div class="quote">❝</div>
+        <p class="testimonial-text">
+          "Grateful to the WeddingBazaar team. As a registered vendor, I connected with a lot of new clients..."
+        </p>
+        <p class="testimonial-name">Parvathy</p>
+        <p class="testimonial-role">Mehndi Artist, Chennai</p>
+      </div>
+    </div>
+
+    <div class="testimonial-footer" data-aos="zoom-in" data-aos-delay="500">
+      <p class="testimonial-cta">Become a vendor in Achudha Matrimony! Double your business</p>
+      <a href="#" class="testimonial-button">Register as vendor</a>
+    </div>
+  </div>
+</section>
+
+
+<style>
+  .testimonial-section {
+   
+    padding: 60px 20px;
+    font-family: 'Poppins', sans-serif;
+    text-align: center;
+ 
+  }
+  
+  .testimonial-heading {
+    font-size: 28px;
+    font-weight: 700;
+    margin-bottom: 10px;
+    color: #000;
+  }
+  
+  .testimonial-subheading {
+    font-size: 16px;
+    color: #333;
+    margin-bottom: 40px;
+  }
+  
+  .testimonial-cards {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 30px;
+    margin-bottom: 40px;
+  }
+  
+  .testimonial-card {
+    background-color: white;
+    border-radius: 12px;
+    padding: 25px;
+    max-width: 330px;
+    text-align: left;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.06);
+    transition: transform 0.3s ease;  
+    
+  }
+  
+  .testimonial-card:hover {
+    transform: translateY(-5px);
+  }
+  
+  .quote {
+    font-size: 32px;
+    color: #e91e63;
+    margin-bottom: 10px;
+  }
+  
+  .testimonial-text {
+    font-size: 14px;
+    color: #333;
+    margin-bottom: 20px;
+    line-height: 1.6;
+  }
+  
+  .testimonial-name {
+    font-weight: 600;
+    margin-bottom: 2px;
+  }
+  
+  .testimonial-role {
+    font-size: 13px;
+    color: #666;
+  }
+  
+  .testimonial-footer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+  }
+  
+  .testimonial-cta {
+    font-weight: 600;
+    font-size: 16px;
+  }
+  
+  .testimonial-button {
+    background-color:  #ff4d6d;
+    color: white;
+    padding: 10px 22px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 500;
+    transition: background 0.3s ease;
+  }
+  
+  .testimonial-button:hover {
+    background-color: #ff4d6d;
+  }
+
+ .testimonial-heading {
+    color: #ffffff;
+  }
+  
+ .testimonial-subheading {
+    color: #cccccc;
+  }
+  
+ .testimonial-card {
+    background-color: #1e1e1e;
+    color: #e0e0e0;
+    box-shadow: 0 6px 20px rgba(255, 255, 255, 0.06);
+  }
+  
+ .testimonial-text {
+    color: #dddddd;
+  }
+  
+   .testimonial-role {
+    color: #aaaaaa;
+  }
+  
+  .testimonial-button {
+    background-color: #ff4d6d;
+    color: #ffffff;
+  }
+  
+  .testimonial-button:hover {
+    background-color: #e03e5d;
+  }
+  
+
+  
+</style>
+
+<section class="feedback-section" id="write-mail">
+  <div class="feedback-container">
+    <div class="feedback-left" data-aos="fade-right">
+      <h3 class="feedback-subtitle">WRITE MAIL</h3>
+      <h2 class="feedback-title">Article / Customer Review / Feedback</h2>
+      <p class="feedback-desc">
+        Finding the right life partner is a journey of trust, compatibility, and shared dreams.
+        Matrimonial websites have revolutionized this process, offering a convenient, personalized, and
+        efficient platform for individuals to connect with like-minded souls.
+      </p>
+      <p class="feedback-desc">
+        Thousands of successful matches and happy couples are a testament to the trust and reliability
+        of our services. Your happiness is our priority, and we're here to support you at every step of
+        the way. Start your search today and take the first step towards a lifetime of love and companionship.
+        With Achudha Matrimony, your perfect match is closer than you think!
+      </p>
+      <p class="feedback-desc">
+        Your feedback is invaluable in helping us improve and serve you better. At Achudha Matrimony,
+        we are committed to creating a seamless and meaningful experience for our users. Whether it’s enhancing
+        features, addressing concerns, or adding new services, your input drives our growth and innovation.
+      </p>
+    </div>
+
+    <div class="feedback-right" data-aos="fade-left">
+      <h2 class="form-title">Write Mail</h2>
+    
+      {% if success %}
+        <div class="alert alert-success">{{ success }}</div>
+      {% elif error %}
+        <div class="alert alert-danger">{{ error }}</div>
+      {% endif %}
+    
+      <form class="feedback-form" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+    
+        <div class="form-row">
+          <input type="text" name="name" class="form-input" placeholder="Your Name" required>
+          <select name="category" class="custom-select" required>
+            <option value="" disabled selected>Select Category</option>
+            <option>Feedback</option>
+            <option>Review</option>
+            <option>Article</option>
+          </select>
+        </div>
+    
+        <input type="email" name="email" class="form-input full-width" placeholder="Your Email" required>
+    
+        <textarea name="message" class="form-textarea" rows="4" placeholder="Message" required></textarea>
+    
+        <div class="form-file-upload">
+          <label for="file"><strong>Upload file (JPEG/PNG/PDF, Max 5MB):</strong></label>
+          <input type="file" name="file" class="form-file" accept=".jpeg,.jpg,.png,.pdf" id="file" style="display: none;" onchange="updateFileName()">
+          <button type="button" class="browse-btn" onclick="document.getElementById('file').click();">Browse</button>
+        </div>
+    
+        <div id="file-name" class="file-name-display"></div>
+    
+        <!-- CAPTCHA -->
+        <div class="form-captcha" style="margin-top: 20px;">
+          <div class="captcha-container"
+               style="display: inline-block;
+                      background: #f3f3f3;
+                      padding: 10px;
+                      border-radius: 5px;
+                      font-size: 20px;
+                      font-weight: bold;
+                      letter-spacing: 3px;
+                      color: black;
+                      text-decoration: line-through;">
+            {{ captcha_code }}
+          </div>
+          <input type="text" name="captcha_input" class="form-control" placeholder="Enter the text shown above" required style="margin-top: 10px;">
+        </div>
+    
+        <button type="submit" class="form-submit-btn" style="margin-top: 15px;">Submit</button>
+      </form>
+    </div>
+    
+  </div>
+</section>
+<script>
+  function updateFileName() {
+    const fileInput = document.getElementById('file');
+    const fileNameDisplay = document.getElementById('file-name');
+    if (fileInput.files.length > 0) {
+      fileNameDisplay.innerText = fileInput.files[0].name;
+    } else {
+      fileNameDisplay.innerText = '';
+    }
+  }
+</script>
+<style>
+  .form-file-upload {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+/* Style for the custom Browse button */
+.browse-btn {
+    background:  #ff4d6d;   /* Green background */
+    color: white;                 /* White text */
+    padding: 10px 20px;           /* Padding around the text */
+    font-size: 16px;              /* Font size */
+    border: none;                 /* No border */
+    cursor: pointer;             /* Pointer cursor on hover */
+    border-radius: 5px;           /* Rounded corners */
+    transition: background-color 0.3s; /* Smooth background transition */
+}
+
+/* Hover effect for the Browse button */
+.browse-btn:hover {
+  transform: scale(1.03);
+}
+
+/* Style for displaying the selected file name */
+#file-name {
+    margin-top: 10px;
+    font-size: 14px;
+    color: #555;                 /* Gray color for file name text */
+}
+  .feedback-section {
+    background: #ff4d6d;
+    padding: 60px 20px;
+    color: #fff;
+    width: 85%;
+    margin-left:8%;
+    border-radius:5px;
+    }
+  
+  .feedback-container {
+    display: flex;
+    flex-wrap: wrap;
+    max-width: 1200px;
+    margin: 0 auto;
+    gap: 40px;
+    align-items: flex-start;
+    justify-content: space-between;
+  }
+  
+  select option {
+    background-color: #ffffff !important;
+    color: #000000 !important;
+  }
+
+  .feedback-left {
+    flex: 1 1 45%;
+  }
+  
+  .feedback-subtitle {
+    text-transform: uppercase;
+    font-weight: bold;
+    font-size: 14px;
+    letter-spacing: 1px;
+    margin-bottom: 10px;
+  }
+  
+  .feedback-title {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 20px;
+  }
+  
+  .feedback-desc {
+    font-size: 15px;
+    line-height: 1.6;
+    margin-bottom: 15px;
+  }
+  
+  .feedback-right {
+    background: #fff;
+    color: #111;
+    padding: 30px;
+    border-radius: 10px;
+    flex: 1 1 45%;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  }
+  
+  .form-title {
+    text-align: center;
+    margin-bottom: 25px;
+    font-weight: 600;
+    font-size: 22px;
+    color:black;
+  }
+  
+  .feedback-form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+  }
+  
+  .form-row {
+    display: flex;
+    gap: 10px;
+  }
+  
+  .form-input,
+  .form-select,
+  .form-textarea {
+    padding: 10px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    flex: 1;
+  }
+  
+  .full-width {
+    width: 100%;
+  }
+  .custom-select {
+    background-color: #ffffff !important;  /* Force white background */
+    color: #000000 !important;             /* Force black text */
+    border: 1px solid #ccc;
+    padding: 10px;
+    border-radius: 5px;  
+  }
+
+  
+  .form-select {
+    background-color: #fff;
+  }
+  
+  .form-textarea {
+    resize: none;
+    width: 100%;
+  }
+  
+  .form-file-upload {
+    background-color: #f8f8f8;
+    padding: 10px;
+    border: 1px dashed #ccc;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    font-size: 13px;
+    border-radius: 6px;
+  }
+  
+  .form-browse-btn {
+    background: #ff4d6d;;
+    border: none;
+    color: white;
+    padding: 6px 12px;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .form-file {
+    display: none;
+  }
+  
+  .form-captcha {
+    background: #eee;
+    padding: 10px;
+    text-align: center;
+    font-weight: bold;
+    font-size: 20px;
+    letter-spacing: 3px;
+    border-radius: 5px;
+  }
+  
+  .form-submit-btn {
+    background: #ff4d6d;
+    color: #fff;
+    border: none;
+    padding: 12px;
+    border-radius: 5px;
+    font-weight: bold;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background 0.3s ease;
+  }
+
+  
+</style>
+<br>
+<br>
+
+<section class="faq-section">
+  <div class="faq-container">
+    
+    <div class="faq-item" data-aos="fade-right">
+      <h3 class="faq-question">What are the benefits of a Premium plan?</h3>
+      <p class="faq-answer">
+        Upgrading to a Premium plan unlocks exclusive features that enhance your matchmaking experience. You can chat unlimited with your Matches, view their contact details, and access hidden photos for better compatibility insights. Additionally, you receive priority assistance, ensuring a hassle-free and efficient partner search.
+      </p>
+    </div>
+
+    <div class="faq-item" data-aos="fade-left">
+      <h3 class="faq-question">Are there any special offers or discounts available?</h3>
+      <p class="faq-answer">
+        Yes! We frequently offer exciting discounts and promotional deals to help you get the best value. Keep an eye on your account dashboard and notifications to stay updated on the latest offers tailored for you.
+      </p>
+    </div>
+
+    <div class="faq-item" data-aos="fade-right">
+      <h3 class="faq-question">What payment methods can I use?</h3>
+      <p class="faq-answer">
+        To make your experience seamless, we provide multiple online and offline payment options based on your location. Simply select your preferred Premium plan, and you’ll be guided through the available payment methods for a secure and smooth transaction.
+      </p>
+    </div>
+
+    <div class="faq-item" data-aos="fade-left">
+      <h3 class="faq-question">How does achudhamatrimony.in ensure safety?</h3>
+      <p class="faq-answer">
+        Your safety is our priority. We follow strict profile verification processes to maintain a trusted community. Additionally, our platform is designed to connect you with like-minded individuals while keeping your personal details secure. If you come across any suspicious activity, please report it immediately, and our team will take swift action.
+      </p>
+    </div>
+
+  </div>
+</section>
+
+<style>
+  .faq-section {
+    background: white;
+    padding: 60px 20px;
+    color: #fff;
+    width: 85%;
+    margin-left:8%;
+    border-radius:5px;
+
+  }
+  
+  .faq-container {
+    max-width: 1000px;
+    margin: 0 auto;
+  }
+  
+  .faq-item {
+    margin-bottom: 40px;
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 20px;
+  }
+  
+  .faq-question {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: #ff4d6d;
+    margin-bottom: 10px;
+  }
+  
+  .faq-answer {
+    font-size: 1rem;
+    color: black;
+    line-height: 1.6;
+  }
+  
+</style>
+<br>
+<br>
+
+  <!-- Contact -->
+  <section class="section" id="contact" data-aos="fade-up" data-aos-duration="1000">
+    <div class="container text-center">
+      <h4 class="mode-text">Contact Us</h4>
+      <p class="mode-text">Email: support@achudhamatrimony.com | Phone: +91 12345 67890</p>
+    </div>
+  </section>
+  
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+
+
+  <!-- Scripts -->
+
+  <script>
+    AOS.init({ duration: 1000, once: true });
+
+    
+  </script>
+
+  {% endblock %}
+

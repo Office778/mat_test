@@ -1,0 +1,573 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Dashboard{% endblock %}
+{% block main-content %}
+
+<!-- AOS Animation CSS -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css" rel="stylesheet">
+
+<!-- Cropper CSS -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.css" rel="stylesheet" />
+<!-- Font Awesome -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet" />
+
+<div class="container mt-5">
+    <div class="row">
+        <!-- Sidebar -->
+        <div class="col-md-4 mb-4">
+            <div class="card glass-sidebar p-4 text-center" data-aos="fade-right">
+                {% get_media_prefix as MEDIA_URL %}
+
+                <div class="profile-pic-wrapper mx-auto mb-3" onclick="document.getElementById('imageInput').click()">
+                    {% if customer.image_path %}
+                        <img src="{{ MEDIA_URL }}{{ customer.image_path }}" class="rounded-circle profile-img" alt="Profile">
+                    {% else %}
+                        <img src="{{ MEDIA_URL }}img/default-m.jpg" class="rounded-circle profile-img" alt="Default">
+                    {% endif %}
+                    <div class="profile-overlay">
+                        <i class="fa fa-camera"></i>
+                        <span>Change</span>
+                    </div>
+                </div>
+
+                <h5 class="fw-bold mb-4">{{ customer.cus_name }} ({{ customer.cus_id }})</h5>
+
+                <ul class="list-unstyled sidebar-menu text-start ps-3">
+                    <li>
+                        <a href="{% url 'upload_horoscope' %}" class="text-decoration-none text-white">
+                            <i class="fa fa-star me-2 text-white"></i>Your Horoscope
+                        </a>
+                        </li>   
+                    <li>
+                          <a href="{% url 'upload_trustmark' %}" class="text-decoration-none text-white">
+                            <i class="fa fa-check-circle me-2 text-white"></i> Trust Mark </a>
+                    </li>
+                        
+                    <li><i class="fa fa-globe me-2 text-white"></i> Astro</li>
+                    <li><a href="{% url 'myplan'%}" style="color:white;text-decoration:none"> <i class="fa fa-gem me-2 text-white"></i> My Plan </a></li>
+                    <li><a href="{% url 'near_me_profiles' %}" class=" fw-bold ms-4 text-white">NEAR ME</a></li>
+                </ul>
+
+                <a href="{% url 'user_update_profile' %}" class="btn mt-3 w-100">Edit Profile</a>
+                <a href="{% url 'plans' %}" class="btn mt-3 w-100">Upgrade Plan</a>
+
+            </div>
+        </div>
+
+        <!-- Profile Details -->
+        <div class="col-md-8">
+            <div class="card shadow-lg p-4 rounded-4 glass-card" data-aos="fade-left">
+                <h4 class="fw-bold mb-4 ">Profile Information</h4>
+                <div class="card p-4 mb-4 rounded-4 text-white" style="background-color:transparent" data-aos="fade-up">
+                    <h5 class="mb-3">Profile Completion</h5>
+                    <div class="progress-container">
+                        <div class="progress" style="height: 25px; background-color: #ffe3e3; border-radius: 20px; overflow: hidden;">
+                            <div id="animatedProgressBar"
+                                class="progress-bar"
+                                role="progressbar"
+                                style="width: 0%; background-image: linear-gradient(135deg, #ee0979, #ff6a00); color: white; font-weight: bold; transition: width 1.5s ease-in-out;"
+                                aria-valuenow="{{ profile_progress }}"
+                                aria-valuemin="0"
+                                aria-valuemax="100">
+                                {{ profile_progress }}%
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="credit-card">
+                    <div class="credit-label">
+                        <i class="fas fa-gem grm-icon"></i>
+                        <span>Available Credits: {{ current_credits }}</span>
+                    </div>
+                </div>
+                <br>
+                <div class="row g-3 fs-6">
+                    <div class="col-sm-6">
+                        <div class="info-box">
+                            <i class="fa fa-phone me-2 text-info"></i> <strong style='font-weight:bold;'>Mobile:</strong>
+                            <div class="text-white" style='font-weight:bold'>{{ customer.cus_mobile }}</div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="info-box">
+                            <i class="fa fa-envelope me-2 text-danger"></i> <strong style='font-weight:bold'>Email:</strong>
+                            <div class="text-white" style='font-weight:bold'>{{ customer.cus_email }}</div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="info-box">
+                            <i class="fa fa-venus-mars me-2 text-pink"></i> <strong style='font-weight:bold'>Gender:</strong>
+                            <div class="text-white" style='font-weight:bold'>{{ customer.gender }}</div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="info-box">
+                            <i class="fa fa-praying-hands me-2 text-warning"></i> <strong style='font-weight:bold'>Religion:</strong>
+                            <div class="ttext-white" style='font-weight:bold'>{{ customer.religion }}</div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="info-box">
+                            <i class="fa fa-users me-2 text-primary"></i> <strong style='font-weight:bold'>Caste:</strong>
+                            <div class="text-white" style='font-weight:bold'>{{ customer.caste }}</div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="info-box">
+                            <i class="fa fa-user-graduate me-2 text-success"></i> <strong style='font-weight:bold'>Qualification:</strong>
+                            <div class="text-white" style='font-weight:bold'>{{ customer.qualification }}</div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="info-box">
+                            <i class="fa fa-language me-2 text-secondary"></i> <strong style='font-weight:bold'>Mother Tongue:</strong>
+                            <div class="text-white" style='font-weight:bold'>{{ customer.mothertongue }}</div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="info-box">
+                            <i class="fa fa-arrows-alt-v me-2 text-dark"></i> <strong style='font-weight:bold'>Height:</strong>
+                            <div class="text-white" style='font-weight:bold'>{{ customer.height }}</div>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <div class="info-box">
+                            <i class="fa fa-city me-2 text-primary"></i> <strong style='font-weight:bold'>City:</strong>
+                            <div class="text-white" style='font-weight:bold'>{{ customer.city }}</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script>
+            document.addEventListener("DOMContentLoaded", function () {
+                const bar = document.getElementById("animatedProgressBar");
+                const progress = bar.getAttribute("aria-valuenow");
+                setTimeout(() => {
+                    bar.style.width = progress + "%";
+                }, 300); // Delay for smoother load
+            });
+        </script>
+        
+
+<div class="profile-info-box" data-aos="fade-up">
+    <div class="profile-status-bar">
+        <div class="status-item" data-aos="fade-right">
+            <i class="fa fa-search me-1"></i><strong>Watchlist:</strong> {{ watchlist_count }}
+          </div>
+          <div class="status-item" data-aos="fade-right" data-aos-delay="100">
+            <i class="fa fa-user me-1"></i><strong>People Unlocked Me:</strong> {{ unlocked_by_others_count }}
+          </div>
+          
+            <div class="toggle-switch" data-aos="fade-left" data-aos-delay="300">
+  <form method="post" action="{% url 'toggle_switch_2' %}">
+    {% csrf_token %}
+    <label class="switch">
+      <input type="checkbox" id="photoOnlyToggle" name="switch_2" onchange="this.form.submit();" {% if customer.switch_2 == 1 %}checked{% endif %}>
+      <span class="slider round"></span>
+       <span class="text-white fw-bold">Show Profile Photo Only Membership</span>
+    </label>
+  </form>
+</div>
+    </div>
+    
+    <p class="info-text" data-aos="zoom-in" data-aos-delay="400">
+        "Your profile photo is the first impression you make in the world of matrimony. A clear, friendly, and professional photo increases your chances of being noticed..."
+    </p>
+</div>
+
+<!-- Note Box -->
+<div class="warning-card" data-aos="zoom-in" data-aos-delay="300">
+    <div class="d-flex align-items-center">
+        <div class="note-video me-3">
+            <video autoplay loop muted playsinline width="60" height="60" style="border-radius: 8px;">
+                <source src="{% static 'videos/warning.mp4' %}" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+        </div>
+        <div class="note-content text-white">
+            <p class="mb-1 fw-bold fs-5 text-center">Note: This is not a DATING website</p>
+            <br>
+            <p class="mb-0 warning-content">
+                <strong style='font-weight:bold;color:black'>Account Termination:</strong> We reserve the right to suspend or terminate accounts for violating terms or engaging in harmful behavior.
+                <br>
+                <strong style='font-weight:bold;color:black'>Content Responsibility:</strong> Users are responsible for the content they post. We are not liable for any false, inappropriate, or illegal content.
+            </p>
+        </div>
+    </div>
+</div>
+
+<!-- Custom CSS -->
+<style>
+    .credit-card {
+        background: rgba(255, 255, 255, 0.05); /* transparent dark glass look */
+        border-radius: 16px;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(10px);
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        padding: px 20px;
+        width: fit-content;
+        max-width: 90%;
+        color: white;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        cursor:pointer;
+    }
+    .grm-icon {
+        font-size: 50px; /* Adjust the icon size */
+        background: linear-gradient(135deg, #f7971e, #ffd200, #f953c6, #b91d73); /* Gradient background */
+        -webkit-background-clip: text; /* Clip the background to the text (icon) */
+        color: transparent; /* Make the text color transparent to show the gradient */
+        font-size: 24px
+    }
+    
+    .credit-label {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 18px;
+        font-weight: 600;
+        gap: 10px;
+        padding:14px;
+    }
+    
+
+    body {
+        background: transparent;
+        font-family: 'Segoe UI', sans-serif;
+        margin-top:5%;
+
+    }
+
+    .glass-card, .glass-sidebar {
+        background: transparent;
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.3);
+        border-radius: 20px;
+        color:white;
+    }
+
+    .profile-pic-wrapper {
+        position: relative;
+        display: inline-block;
+        width: 150px;
+        height: 150px;
+    }
+
+    .profile-img {
+        width: 150px ;
+        height: 150px;
+        object-fit: cover;
+        border-radius: 50%;
+        border: 3px solid #007bff;
+        transition: 0.3s ease;
+    }
+
+    .profile-pic-wrapper:hover .profile-img {
+        filter: brightness(70%);
+    }
+
+    .profile-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 150px;
+        height: 150px;
+        border-radius: 50%;
+        background-color: rgba(0, 0, 0, 0.5);
+        color: #fff;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        opacity: 0;
+        transition: 0.3s ease;
+        pointer-events: none;
+    }
+
+    .profile-pic-wrapper:hover .profile-overlay {
+        opacity: 1;
+    }
+
+    .profile-overlay i {
+        font-size: 20px;
+    }
+
+    .profile-overlay span {
+        font-size: 14px;
+    }
+
+    .sidebar-menu li {
+        padding: 10px 0;
+        font-weight: 500;
+        color: white;
+        transition: 0.3s;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+    }
+
+    .sidebar-menu li:hover {
+        color: ;
+        transform: translateX(5px);
+    }
+
+    .list-group-item {
+        background: transparent;
+        border: none;
+    }
+
+    strong {
+        color: white;
+    }
+    .info-box {
+        background: rgba(255, 255, 255, 0.25);
+        border-radius: 12px;
+        padding: 12px 15px;
+        margin-bottom: 10px;
+        transition: 0.3s;
+        box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    }
+    
+    .info-box:hover {
+        background: rgba(255, 255, 255, 0.5);
+        transform: translateY(-2px);
+    }
+    
+    .info-box i {
+        font-size: 18px;
+    }
+    .btn {
+        padding: 14px;
+        border: none;
+        border-radius: 12px;
+        background: linear-gradient(135deg, #ff6a00, #ee0979);
+        color: white;
+        font-size: 16px;
+        font-weight: bold;
+        cursor: pointer;
+        transition: transform 0.3s ease, background 0.3s ease;
+      }
+  
+      .btn:hover {
+        transform: scale(1.03);
+        background: linear-gradient(135deg, #ee0979, #ff6a00);
+      }
+      .profile-info-box {
+        background-color: #ff4d6d;
+        color: #fff;
+        border-radius: 20px;
+        padding: 24px;
+        margin-bottom: 20px;
+        box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+        font-family: 'Segoe UI', sans-serif;
+        margin-top:5%;
+        padding:5%;
+        font-size: 20px;
+    }
+    
+    .profile-status-bar {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 15px;
+        gap: 15px;
+       
+    }
+    
+    .status-item {
+        font-weight: 500;
+    }
+    
+    .toggle-switch {
+        display: flex;
+        align-items: center;
+        font-size: 0.9rem;
+        
+    }
+    
+    .toggle-switch input[type="checkbox"] {
+        display: none;
+        
+    }
+    
+    .toggle-switch label {
+        position: relative;
+        padding-left: 45px;
+        cursor: pointer;
+        display: inline-block;
+        user-select: none;
+    }
+    
+    .slider {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 36px;
+        height: 20px;
+        background-color: #ddd;
+        border-radius: 10px;
+        transition: 0.3s;
+    }
+    
+    .slider:before {
+        content: "";
+        position: absolute;
+        width: 16px;
+        height: 16px;
+        left: 2px;
+        top: 2px;
+        background-color: #fff;
+        border-radius: 50%;
+        transition: 0.3s;
+    }
+    
+    input[type="checkbox"]:checked + .slider {
+        background-color: #333;
+    }
+    
+    input[type="checkbox"]:checked + .slider:before {
+        transform: translateX(16px);
+    }
+    
+    .info-text {
+        font-style: italic;
+        margin-top: 4%;
+        font-size: 20px;
+        color: white;
+    }
+    
+    .warning-card {
+        background-color: #ff4d6d;
+        padding: 20px 25px;
+        border-radius: 15px;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+        margin-top: 25px;
+        padding:5%;
+    }
+    
+    .note-video video {
+        width: 60px;
+        height: 60px;
+        object-fit: cover;
+        border-radius: 8px;
+    }
+    
+    .note-content p {
+        margin-bottom: 0.5rem;
+        font-size: 18px;
+    }
+    .warning-content{
+        padding-left: 20px;
+
+    }
+    .progress-bar {
+    transition: width 1s ease-in-out;
+    }
+    body{
+        background:white;
+        font-family: "Poppins", sans-serif;
+        font-weight: 300;
+        font-style: normal;
+      }
+  
+</style>
+
+
+{% comment %} cropper js Integration {% endcomment %}
+<!-- Hidden File Input -->
+<input type="file" id="imageInput" style="display:none" accept="image/*" onchange="uploadImage(event)">
+
+<!-- Cropper Modal -->
+<div class="modal fade" id="cropperModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered" style="max-width: 500px;">
+        <div class="modal-content bg-dark text-white">
+            <div class="modal-header">
+                <h5 class="modal-title">Crop Profile Image</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body text-center">
+                <img id="imageToCrop" style="max-width: 100%; max-height: 400px;" />
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="cropButton" class="btn btn-success">Crop & Upload</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- JS + Cropper -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.js"></script>
+
+<script>
+    const input = document.getElementById('imageInput');
+    const image = document.getElementById('imageToCrop');
+    const modalEl = document.getElementById('cropperModal');
+    const cropModal = new bootstrap.Modal(modalEl);
+    let cropper;
+
+    input.addEventListener('change', function (e) {
+        const file = e.target.files[0];
+        if (!file) return;
+        const reader = new FileReader();
+        reader.onload = function (event) {
+            image.src = event.target.result;
+            cropModal.show();
+        };
+        reader.readAsDataURL(file);
+    });
+
+    modalEl.addEventListener('shown.bs.modal', function () {
+        cropper = new Cropper(image, {
+            aspectRatio: 1,
+            viewMode: 1,
+            autoCropArea: 1,
+        });
+    });
+
+    modalEl.addEventListener('hidden.bs.modal', function () {
+        if (cropper) {
+            cropper.destroy();
+            cropper = null;
+        }
+    });
+
+    document.getElementById('cropButton').addEventListener('click', function () {
+        const canvas = cropper.getCroppedCanvas({
+            width: 300,
+            height: 300,
+        });
+
+        const base64Image = canvas.toDataURL('image/png');  // or 'image/jpeg'
+
+        fetch("{% url 'upload_cropped_image' %}", {
+            method: 'POST',
+            headers: {
+                'X-CSRFToken': '{{ csrf_token }}',
+                'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            body: new URLSearchParams({ image: base64Image })
+        })
+        .then(res => res.json())
+        .then(data => {
+            if (data.message) {
+                alert(data.message);
+                location.reload();
+            } else {
+                alert("Error: " + data.error);
+            }
+        })
+        .catch(err => {
+            console.error(err);
+            alert("Upload failed.");
+        });
+
+        cropModal.hide();
+    });
+</script>
+
+
+{% endblock %}

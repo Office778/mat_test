@@ -1,0 +1,83 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}{{ blog.title }}{% endblock %}
+
+<link href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+
+
+{% block main-content %}
+<div class="glass-container" data-aos="zoom-in-up">
+    <h1>{{ blog.title }}</h1>
+    <p><strong>By:</strong> {{ blog.name }} | <strong>Date:</strong> {{ blog.date }}</p>
+    
+    {% if blog.blog_img_path %}
+        <img src="{{ blog.blog_img_path }}" alt="{{ blog.title }}">
+    {% endif %}
+    
+    <p class="blog-description">{{ blog.des|safe }}</p>
+   <a href="{% url 'blog_list' %}" class="btn">← Back to all blogs</a>
+
+<style>
+ .btn {
+      padding: 10px;
+      border: none;
+      border-radius: 12px;
+      background: linear-gradient(135deg, #ff6a00, #ee0979);
+      color: white;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: transform 0.3s ease, background 0.3s ease;
+    }
+
+    .btn:hover {
+      transform: scale(1.03);
+      background: linear-gradient(135deg, #ee0979, #ff6a00);
+    }
+</style>
+</div>
+
+<style>
+ 
+
+    .glass-container {
+        max-width: 900px;
+        margin: 60px auto;
+        padding: 30px;
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 20px;
+        box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        border: 1px solid rgba(255, 255, 255, 0.18);
+        color: #fff;
+    }
+
+    .glass-container h1 {
+        font-size: 2.5rem;
+        margin-bottom: 15px;
+    }
+
+    .glass-container p {
+        font-size: 1.1rem;
+        line-height: 1.7;
+    }
+
+    .glass-container img {
+        max-width: 100%;
+        border-radius: 10px;
+        margin: 20px 0;
+    }
+
+ 
+
+    .glass-container a:hover {
+        text-decoration: underline;
+    }
+</style>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+<script>AOS.init();</script>
+{% endblock %}

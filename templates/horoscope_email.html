@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Horoscope Uploaded</title>
+  <style>
+    body {
+            font-family: Arial, sans-serif;
+            background-color: #f6f9fc;
+            margin: 0;
+            padding: 0;
+            color: #333;
+        }
+        .container {
+            max-width: 600px;
+            margin: 40px auto;
+            background-color: #ffffff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        .header {
+            background-color: #28a745;
+            padding: 20px;
+            border-radius: 10px 10px 0 0;
+            color: white;
+            text-align: center;
+        }
+        .content {
+            padding: 20px 0;
+        }
+        .footer {
+            margin-top: 20px;
+            font-size: 14px;
+            color: #777;
+            text-align: center;
+        }
+        .details {
+            margin-top: 20px;
+        }
+        .details td {
+            padding: 6px 10px;
+        }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h2>New Horoscope Uploaded</h2>
+    </div>
+    <div class="content">
+      <p class="text-dark">A new horoscope file has been uploaded by the following customer:</p>
+
+      <table class="details">
+        <tr>
+          <td><strong>Customer ID:</strong></td>
+          <td>{{ customer_id }}</td>
+        </tr>
+        <tr>
+          <td><strong>Name:</strong></td>
+          <td>{{ customer_name }}</td>
+        </tr>
+        <tr>
+          <td><strong>Mobile:</strong></td>
+          <td>{{ customer_mobile }}</td>
+        </tr>
+        <tr>
+          <td><strong>Email:</strong></td>
+          <td>{{ customer_email }}</td>
+        </tr>
+      </table>
+
+      <p style="margin-top: 20px;" class="text-dark">Please log in to the admin panel to review and process the horoscope document.</p>
+   <p class="text-dark">Best regards,<br>
+    Achudha Matrimony Team</p>
+  </div>
+</body>
+</html>

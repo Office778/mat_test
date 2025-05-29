@@ -1,0 +1,73 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block main-content %}
+{% block title %}Near Me Profiles{% endblock %}
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+<link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet">
+
+<div class="container py-5 mt-5">
+    <h2 class="text-center mb-4 text-white" data-aos="fade-down">Nearby Profiles</h2>
+
+    {% if profiles %}
+    <div class="row">
+        {% get_media_prefix as MEDIA_URL %}
+        {% for profile in profiles %}
+        <div class="col-md-6 col-lg-3 mb-4" data-aos="fade-up" data-aos-delay="{{ forloop.counter0|add:1 }}00">
+            <div class="card shadow border-0 h-100">
+                {% if profile.image_path %}
+                <img src="{{ profile.image_path.url }}" class="profile-img" alt="Profile Picture">
+                {% else %}
+                <img src="{{ MEDIA_URL }}img/default-m.jpg" class="profile-img" alt="Default">
+                {% endif %}
+                <div class="card-body">
+                    <h5 class="card-title">{{ profile.name_for }}</h5>
+                    <p class="card-text mb-1"><strong>City:</strong> {{ profile.city }}</p>
+                    <p class="card-text mb-1"><strong>DOB:</strong> {{ profile.dob }}</p>
+                    <p class="card-text mb-2"><strong>Mother Tongue:</strong> {{ profile.mothertongue }}</p>
+                    <a href="{% url 'profile_detail' cus_id=profile.encoded_id %}" class="btn btn-sm w-100">View Profile</a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <p class="text-white text-center">No nearby profiles found.</p>
+    {% endif %}
+</div>
+
+<style>
+    body {
+        font-family: "Poppins", sans-serif;
+    }
+    .btn {
+        background: linear-gradient(135deg, #ff6a00, #ee0979);
+        color: white;
+        cursor: pointer;
+        transition: transform 0.3s ease, background 0.3s ease;
+    }
+    .btn:hover {
+        transform: scale(1.03);
+        background: linear-gradient(135deg, #ee0979, #ff6a00);
+        color: white;
+    }
+    .profile-img {
+        width: 100%;
+        height: 250px;
+        object-fit: cover;
+        border-radius: 10px 10px 0 0;
+    }
+</style>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+
+<script>
+    AOS.init({
+        duration: 800,
+        once: true
+    });
+</script>
+
+{% endblock %}

@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Update Profile</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet"/>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"/>
+
+  <style>
+    body, html {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      font-family: 'Poppins', sans-serif;
+      overflow-x: hidden;
+    }
+
+    #bg-video {
+      position: fixed;
+      right: 0;
+      bottom: 0;
+      min-width: 100%;
+      min-height: 100%;
+      z-index: -1;
+      object-fit: cover;
+    }
+
+    .form-container {
+      backdrop-filter: blur(20px);
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      box-shadow: 0 8px 32px rgba(31, 38, 135, 0.4);
+      animation: fadeInUp 1s ease-out;
+      padding: 40px 50px;
+      border-radius: 20px;
+      color: white;
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 30px;
+      font-weight: 600;
+      color: #fff;
+    }
+
+    label {
+      margin-bottom: 6px;
+      font-weight: 500;
+      font-size: 14px;
+    }
+
+    input, select, textarea {
+      padding: 12px 14px;
+      border-radius: 12px;
+      border: none;
+      outline: none;
+      background: rgba(255, 255, 255, 0.15);
+      color: white !important;
+      font-size: 14px;
+      transition: all 0.3s ease-in-out;
+      width: 100%;
+    }
+
+    input::placeholder, textarea::placeholder {
+      color: #eee;
+      opacity: 0.7;
+    }
+
+    input:focus, select:focus, textarea:focus {
+      background: rgba(255, 255, 255, 0.25);
+      box-shadow: 0 0 0 2px #ffffff55, 0 0 10px #ffffff33;
+    }
+
+    select option {
+      color: black !important;
+    }
+
+    textarea {
+      resize: none;
+      height: 80px;
+    }
+
+    button {
+      padding: 14px;
+      border: none;
+      border-radius: 12px;
+      background: linear-gradient(135deg, #ff6a00, #ee0979);
+      color: white;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: transform 0.3s ease, background 0.3s ease;
+      width: 100%;
+    }
+
+    button:hover {
+      transform: scale(1.03);
+      background: linear-gradient(135deg, #ee0979, #ff6a00);
+    }
+
+    #suggestions {
+      list-style: none;
+      padding: 0;
+      max-height: 150px;
+      overflow-y: auto;
+      position: absolute;
+      background: white;
+      width: 100%;
+      z-index: 1000;
+    }
+
+    #suggestions li {
+      padding: 8px;
+      cursor: pointer;
+      background-color: #f0f0f0;
+      color: black;
+    }
+
+    #suggestions li:hover {
+      background-color: black;
+      color: white;
+    }
+  </style>
+</head>
+<body>
+
+<video autoplay muted loop id="bg-video">
+  <source src="{% static 'videos/background1.mp4' %}" type="video/mp4" />
+  Your browser does not support the video tag.
+</video>
+
+<div class="container py-5">
+  <div class="form-container mx-auto" style="max-width: 1000px;">
+    <h2>Update Your Profile</h2>
+    <form method="POST" enctype="multipart/form-data" class="row g-4">
+      {% csrf_token %}
+      
+      <label for="profile_for">Profile For</label>
+      <select name="profile_for" id="profile_for" required>
+        <option value="">Select</option>
+        <option value="Self" {% if profile_for == 'Self' %}selected{% endif %}>Self</option>
+        <option value="Son" {% if profile_for == 'Son' %}selected{% endif %}>Son</option>
+        <option value="Daughter" {% if profile_for == 'Daughter' %}selected{% endif %}>Daughter</option>
+        <option value="Brother" {% if profile_for == 'Brother' %}selected{% endif %}>Brother</option>
+        <option value="Sister" {% if profile_for == 'Sister' %}selected{% endif %}>Sister</option>
+        <option value="Friend" {% if profile_for == 'Friend' %}selected{% endif %}>Friend</option>
+        <option value="Relative" {% if profile_for == 'Relative' %}selected{% endif %}>Relative</option>
+      </select>
+      
+      <div class="col-md-6">
+        <label for="name">Full Name</label>
+        <input type="text" name="name_for"  id="name" value="{{ customer.name_for }}" required />
+      </div>
+
+      <div class="col-md-6">
+        <label for="dob">Date of Birth</label>
+        <input type="date" name="dob" id="dob" value="{{ customer.dob|date:'Y-m-d' }}" required />
+      </div>
+
+      <div class="col-md-6">
+        <label for="gender">Gender</label>
+        <select name="gender" id="gender" required>
+          <option value="">Select</option>
+          <option value="Male" {% if customer.gender == 'Male' %}selected{% endif %}>Male</option>
+          <option value="Female" {% if customer.gender == 'Female' %}selected{% endif %}>Female</option>
+          <option value="Other" {% if customer.gender == 'Other' %}selected{% endif %}>Other</option>
+        </select>
+      </div>
+
+      <div class="col-md-6">
+        <label for="mothertongue">Mother Tongue</label>
+        <select name="mothertongue" id="mothertongue" required>
+          <option value="">Select</option>
+          {% for item in mothertongue %}
+            <option value="{{ item }}" {% if customer.mothertongue == item %}selected{% endif %}>{{ item }}</option>
+          {% endfor %}
+        </select>
+      </div>
+
+      <div class="col-md-6">
+        <label for="religion">Religion</label>
+        <select name="religion" id="religion" required>
+          <option value="">Select</option>
+          {% for item in religions %}
+            <option value="{{ item }}" {% if customer.religion == item %}selected{% endif %}>{{ item }}</option>
+          {% endfor %}
+        </select>
+      </div>
+
+      <div class="col-md-6">
+        <label for="caste">Caste</label>
+        <select name="caste" id="caste" required>
+          <option value="">Select</option>
+          {% for item in castes %}
+            <option value="{{ item }}" {% if customer.caste == item %}selected{% endif %}>{{ item }}</option>
+          {% endfor %}
+        </select>
+      </div>
+
+      <div class="col-md-6" style="position: relative;">
+        <label for="city">City</label>
+        <input type="text" name="city" id="city" value="{{ customer.city }}" autocomplete="off" required />
+        <ul id="suggestions"></ul>
+        <input type="hidden" name="selected_city" id="selected_city">
+        <input type="hidden" name="selected_state" id="selected_state">  
+      </div>
+
+      <div class="col-md-6">
+        <label for="marital_status">Marital Status</label>
+        <select name="marital_status" id="marital_status" required>
+          <option value="">Select</option>
+          <option value="Never Married" {% if customer.marital_status == 'Never Married' %}selected{% endif %}>Never Married</option>
+          <option value="Divorced" {% if customer.marital_status == 'Divorced' %}selected{% endif %}>Divorced</option>
+          <option value="Widowed" {% if customer.marital_status == 'Widowed' %}selected{% endif %}>Widowed</option>
+          <option value="Awaiting Divorced" {% if customer.marital_status == 'Awaiting Divorced' %}selected{% endif %}>Awaiting Divorced</option>
+          <option value="Annulled" {% if customer.marital_status == 'Annulled' %}selected{% endif %}>Annulled</option>
+        </select>
+      </div>
+
+      <div class="col-md-6">
+        <label for="diet">Diet</label>
+        <select name="diet" id="diet" required>
+          <option value="">Select</option>
+          <option value="Vegetarian" {% if customer.diet == 'Vegetarian' %}selected{% endif %}>Vegetarian</option>
+          <option value="Non-Vegetarian" {% if customer.diet == 'Non-Vegetarian' %}selected{% endif %}>Non-Vegetarian</option>
+          <option value="Eggetarian" {% if customer.diet == 'Eggetarian' %}selected{% endif %}>Eggetarian</option>
+        </select>
+      </div>
+
+      <div class="col-md-6">
+        <label for="height">Height (cm)</label>
+        <select name="height" id="height" required>
+          <option value="">Select</option>
+          {% for item in heights %}
+            <option value="{{ item }}" {% if customer.height == item %}selected{% endif %}>{{ item }}</option>
+          {% endfor %}
+        </select>
+      </div>
+
+      <div class="col-md-6">
+        <label for="qualification">Qualification</label>
+        <select name="qualification" id="qualification" required>
+          <option value="">Select</option>
+          {% for item in qualifications %}
+            <option value="{{ item }}" {% if customer.qualification == item %}selected{% endif %}>{{ item }}</option>
+          {% endfor %}
+        </select>
+      </div>
+
+      <div class="col-md-6">
+        <label for="work">Work with</label>
+        <select name="work" id="work" required>
+          <option value="">Select work</option>
+          <option value="Private Company" {% if customer.work == 'Private Company' %}selected{% endif %}>Private Company</option>
+          <option value="Government / Public Sector" {% if customer.work == 'Government / Public Sector' %}selected{% endif %}>Government / Public Sector</option>
+          <option value="Defense / Civil Services" {% if customer.work == 'Defense / Civil Services' %}selected{% endif %}>Defense / Civil Services</option>
+          <option value="Business / Self Employed" {% if customer.work == 'Business / Self Employed' %}selected{% endif %}>Business / Self Employed</option>
+          <option value="Not Working" {% if customer.work == 'Not Working' %}selected{% endif %}>Not Working</option>
+        </select>
+      </div>
+
+      <div class="col-12">
+        <label for="discription">About You</label>
+        <textarea name="discription" id="discription" required>{{ customer.discription }}</textarea>
+      </div>
+
+      <style>
+        <style>
+          .form-check {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+          }
+        
+          .form-check input[type="checkbox"] {
+            /* Reset default checkbox appearance */
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            border: 2px solid #198754;
+            border-radius: 4px;
+            position: relative;
+            cursor: pointer;
+            background-color: transparent;
+            transition: background-color 0.2s ease;
+            outline: none;
+          }
+        
+          .form-check input[type="checkbox"]:checked {
+            background-color: #198754;
+          }
+        
+          .form-check input[type="checkbox"]:checked::after {
+            content: "✔";
+            color: white;
+            font-size: 14px;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -55%);
+            line-height: 1;
+          }
+        
+          .form-check input[type="checkbox"]:focus {
+            outline: none;
+            box-shadow: none;
+          }
+        
+          .form-check-label {
+            user-select: none;
+            cursor: pointer;
+          }
+    
+        
+        .profile-img-preview {
+          width: 80px;
+          height: 80px;
+          border-radius: 50%;
+          object-fit: cover;
+          border: 1px solid #ccc;
+        }
+      </style>
+      
+      
+      {% get_media_prefix as MEDIA_URL %}
+
+      <label>Profile Picture:</label>
+      <input type="file" name="profile_image" class="form-control mb-3">
+      
+      <!-- Delete Photo Checkbox -->
+      <div class="form-check mb-1">
+        <input  type="checkbox" name="delete_photo" id="delete_photo">
+        <label class="form-check-label" for="delete_photo">
+          Delete current profile picture
+        </label>
+  
+        <img src="{% if customer.image_path %}{{ MEDIA_URL }}{{ customer.image_path }}{% else %}{% static 'default_images/default_profile.png' %}{% endif %}"
+        alt="Profile Preview" class="profile-img-preview">
+      </div>
+{% if messages %}
+  {% for message in messages %}
+    <div class="alert alert-warning">{{ message }}</div>
+  {% endfor %}
+{% endif %}
+      <div class="col-12">
+        <button type="submit">Update Profile</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<script>
+  const input = document.getElementById("city");
+  const suggestions = document.getElementById("suggestions");
+  const selectedCity = document.getElementById("selected_city");
+  const selectedState = document.getElementById("selected_state");
+  const API_KEY = "pk.8a6188da4a6dcaa3fb60d9f1a8f1f416";
+
+  input.addEventListener("input", () => {
+    const query = input.value.trim();
+    if (query.length < 3) {
+      suggestions.innerHTML = "";
+      return;
+    }
+
+    fetch(`https://api.locationiq.com/v1/autocomplete?key=${API_KEY}&q=${encodeURIComponent(query)}&limit=5&dedupe=1&countrycodes=in`)
+      .then(response => response.json())
+      .then(data => {
+        suggestions.innerHTML = "";
+        data.forEach(place => {
+          const city = place.address.city || place.address.town || place.address.village;
+          const state = place.address.state;
+
+          if (city && state) {
+            const li = document.createElement("li");
+            li.textContent = `${city}, ${state}`;
+            li.onclick = () => {
+              input.value = `${city}, ${state}`;
+              selectedCity.value = city;
+              selectedState.value = state;
+              suggestions.innerHTML = "";
+            };
+            suggestions.appendChild(li);
+          }
+        });
+      })
+      .catch(error => {
+        console.error("Error fetching autocomplete data:", error);
+      });
+  });
+</script>
+</body>
+</html>

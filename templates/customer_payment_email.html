@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Payment Confirmation</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f6f9fc;
+            margin: 0;
+            padding: 0;
+            color: #333;
+        }
+        .container {
+            max-width: 600px;
+            margin: 40px auto;
+            background-color: #ffffff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        .header {
+            background-color: #28a745;
+            padding: 20px;
+            border-radius: 10px 10px 0 0;
+            color: white;
+            text-align: center;
+        }
+        .content {
+            padding: 20px 0;
+        }
+        .footer {
+            margin-top: 20px;
+            font-size: 14px;
+            color: #777;
+            text-align: center;
+        }
+        .details {
+            margin-top: 20px;
+        }
+        .details td {
+            padding: 6px 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h2>Payment Confirmation</h2>
+        </div>
+        <div class="content">
+            <p>Dear {{ customer_name }},</p>
+
+            <p>Thank you for purchasing the <strong>{{ plan_name }}</strong> plan. Your payment has been successfully received.</p>
+
+            <table class="details">
+                <tr>
+                    <td><strong>Token ID:</strong></td>
+                    <td>{{ token_id }}</td>
+                </tr>
+                <tr>
+                    <td><strong>Plan:</strong></td>
+                    <td>{{ plan_name }}</td>
+                </tr>
+                <tr>
+                    <td><strong>Credits Added:</strong></td>
+                    <td>{{ credits }}</td>
+                </tr>
+                <tr>
+                    <td><strong>Amount:</strong></td>
+                    <td>₹{{ amount }}</td>
+                </tr>
+                <tr>
+                    <td><strong>Transaction ID:</strong></td>
+                    <td>{{ utr }}</td>
+                </tr>
+            </table>
+
+
+            <p>Best regards,<br>
+            Achudha Matrimony Team</p>
+        </div>
+    </div>
+</body>
+</html>

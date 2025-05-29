@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Signup | Achudha Matrimony</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+        body, html {
+            height: 100%;
+            margin: 0;
+            font-family: 'Segoe UI', sans-serif;
+            overflow: hidden;
+        }
+
+        /* Background video style */
+        .video-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            object-fit: cover;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        /* Glassmorphism form */
+        .form-container {
+            backdrop-filter: blur(20px);
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            padding: 30px;
+            border-radius: 20px;
+            max-width: 420px;
+            width: 100%;
+            color: #fff;
+            box-shadow: 0 8px 32px rgba(31, 38, 135, 0.4);
+            animation: fadeInUp 1s ease-out;
+        }
+
+        .form-title {
+            color: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: bold;
+            font-size: 22px;
+            margin-bottom: 20px;
+            animation: fadeIn 1.2s ease-out;
+        }
+
+        .form-control {
+            background: rgba(255, 255, 255, 0.15);
+            border: none;
+            color: white !important;
+            transition: background 0.3s ease, transform 0.2s;
+        }
+
+        .form-control::placeholder {
+            color: #e0e0e0;
+        }
+
+        .form-control:focus {
+            box-shadow: 0 0 8px rgba(255, 255, 255, 0.4);
+            background-color: rgba(255, 255, 255, 0.25);
+            color: white !important;
+            transform: scale(1.02);
+        }
+
+        .form-text.valid {
+            color:rgb(18, 218, 104);
+        }
+
+        .form-text.invalid {
+            color: white;
+        }
+
+        .btn {
+            padding: 14px;
+            border: none;
+            border-radius: 12px;
+            background: linear-gradient(135deg, #ff6a00, #ee0979);
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.3s ease, background 0.3s ease;
+          }
+      
+          .btn:hover {
+            transform: scale(1.03);
+            background: linear-gradient(135deg, #ee0979, #ff6a00);
+          }
+
+        .error-box {
+            background-color: red;
+            padding: 6px 10px;
+            border-radius: 5px;
+            margin-top: 5px;
+            font-size: 14px;
+        }
+
+        a {
+            color: #f1f1f1;
+            transition: color 0.2s ease-in-out;
+        }
+
+        a:hover {
+            color: #ffdddd;
+            text-decoration: underline;
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            0% {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<!-- Background Video -->
+ <video autoplay muted loop playsinline preload="auto" class="video-bg">
+    <source src="{% static 'videos/background1.mp4' %}" type="video/mp4">
+    Your browser does not support the video tag.
+</video> 
+
+<div class="container d-flex justify-content-center align-items-center min-vh-100">
+    <form method="post" class="form-container" onsubmit="return validateForm()">
+        {% csrf_token %}
+        <div class="form-title">
+            <span>Signup</span> Achudha Matrimony
+        </div>
+
+        <div class="mb-3">
+            <input type="text" name="name" class="form-control" placeholder="Name" required>
+        </div>
+
+        <div class="mb-3">
+            <input type="text" name="mobile" class="form-control" placeholder="+91XXXXXXXXXX" required>
+            {% if mobile_error %}
+                <div class="error-box">{{ mobile_error }}</div>
+            {% endif %}
+        </div>
+
+        <div class="mb-3">
+            <input type="email" name="email" class="form-control" placeholder="Email" required>
+            {% if email_error %}
+                <div class="error-box">{{ email_error }}</div>
+            {% endif %}
+        </div>
+
+        <div class="mb-3">
+            <input type="password" name="password" id="password" class="form-control" placeholder="Create password" required oninput="checkPassword()">
+            <div id="passwordHelp" class="form-text"></div>
+        </div>
+
+        <div class="mb-3">
+            <input type="password" name="confirm_password" id="confirm_password" class="form-control" placeholder="Confirm password" required oninput="checkMatch()">
+            <div id="matchText" class="form-text"></div>
+        </div>
+
+        <div class="mb-3 form-check">
+            <input type="checkbox" name="terms" class="form-check-input" id="termsCheck" required>
+            <label class="form-check-label text-white" for="termsCheck">
+                <a href="#">Terms and conditions</a>
+            </label>
+        </div>
+
+        <div class="d-grid">
+            <button type="submit" class="btn" id="submitBtn">Create</button>
+        </div>
+
+        <p class="mt-3 text-center">Already have an account? <a href="{% url 'login' %}">Login</a></p>
+    </form>
+</div>
+
+<!-- JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+    function checkPassword() {
+        const pwd = document.getElementById("password").value;
+        const help = document.getElementById("passwordHelp");
+        const submit = document.getElementById("submitBtn");
+
+        let errors = [];
+
+        if (pwd.length < 8) errors.push("At least 8 characters");
+        if (!/[A-Z]/.test(pwd)) errors.push("One uppercase letter");
+        if (!/[a-z]/.test(pwd)) errors.push("One lowercase letter");
+        if (!/[0-9]/.test(pwd)) errors.push("One digit");
+        if (!/[\W_]/.test(pwd)) errors.push("One special character");
+
+        if (errors.length > 0) {
+            help.innerHTML = "Password must contain:<br>• " + errors.join("<br>• ");
+            help.className = "form-text invalid";
+            submit.disabled = true;
+        } else {
+            help.innerHTML = "Password looks good ✅";
+            help.className = "form-text valid";
+            checkFormReady();
+        }
+    }
+
+    function checkMatch() {
+        const pwd = document.getElementById("password").value;
+        const confirm = document.getElementById("confirm_password").value;
+        const matchText = document.getElementById("matchText");
+
+        if (!confirm) {
+            matchText.innerHTML = "";
+            return;
+        }
+
+        if (pwd === confirm) {
+            matchText.innerHTML = "Passwords match ✅";
+            matchText.className = "form-text valid";
+        } else {
+            matchText.innerHTML = "Passwords do not match ❌";
+            matchText.className = "form-text invalid";
+        }
+
+        checkFormReady();
+    }
+
+    function checkFormReady() {
+        const helpValid = document.getElementById("passwordHelp").classList.contains("valid");
+        const pwd = document.getElementById("password").value;
+        const confirm = document.getElementById("confirm_password").value;
+        const submit = document.getElementById("submitBtn");
+
+        submit.disabled = !(helpValid && pwd === confirm);
+    }
+
+    function validateForm() {
+        return !document.getElementById("submitBtn").disabled;
+    }
+</script>
+  <script>
+  document.addEventListener('contextmenu', e => e.preventDefault());
+  document.addEventListener('keydown', e => {
+    if (
+      e.ctrlKey && (e.key === 'u' || e.key === 's' || e.key === 'S') || // Ctrl+U or Ctrl+S
+      e.key === 'F12' || // Dev tools
+      (e.ctrlKey && e.shiftKey && e.key === 'I') // Ctrl+Shift+I
+    ) {
+      e.preventDefault();
+    }
+  });
+</script>
+</body>
+</html>

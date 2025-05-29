@@ -1,0 +1,93 @@
+{% extends 'base.html' %}
+
+{% block main-content %}
+<!-- AOS CSS -->
+<link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet">
+
+<!-- Bootstrap CSS -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<style>
+    .glass-box {
+        background: rgba(255, 255, 255, 0.15);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        border-radius: 15px;
+        box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+        padding: 40px;
+        max-width: 800px;
+        margin: 5% auto;
+        color: #000;
+    }
+    .glass-box label {
+        font-weight: 500;
+    }
+    
+    .btn {
+      padding: 10px;
+      border: none;
+      border-radius: 12px;
+      background: linear-gradient(135deg, #ff6a00, #ee0979);
+      color: white;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: transform 0.3s ease, background 0.3s ease;
+    }
+
+    .btn:hover {
+      transform: scale(1.03);
+      background: linear-gradient(135deg, #ee0979, #ff6a00);
+    }
+    /* Style for existing horoscope link */
+    .existing-trustmark a {
+        color: #ff6a00;
+        font-weight: bold;
+        text-decoration: none;
+    }
+    .existing-trustmark a:hover {
+        text-decoration: underline;
+    }
+</style>
+
+<div class="glass-box text-white" data-aos="fade-up">
+    <h2 class="text-center mb-4">Upload Trustmark (PAN Card or Aadhaar Card)</h2>
+
+    {% if messages %}
+        <div class="mb-3">
+            {% for message in messages %}
+                <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                    {{ message }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+
+    <form action="{% url 'upload_trustmark' %}" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+
+        {% if existing_trustmark %}
+            <div class="mb-3 existing-trustmark">
+                <label class="form-label">Current Uploaded Trustmark:</label><br />
+                <a href="{{ MEDIA_URL }}{{ existing_trustmark }}" target="_blank">View Trustmark PDF</a>
+            </div>
+        {% endif %}
+
+        <div class="mb-3">
+            <label for="trust_file" class="form-label">Select Trustmark PDF or Image (Max 5MB):</label>
+            <input class="form-control" type="file" id="trust_file" name="trust_file" accept=".pdf" required />
+        </div>
+        <div class="d-grid">
+            <button type="submit" class="btn">Upload Trustmark</button>
+        </div>
+    </form>
+</div>
+
+<!-- Bootstrap JS & AOS JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+<script>
+    AOS.init();
+</script>
+{% endblock %}
